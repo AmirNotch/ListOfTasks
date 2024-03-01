@@ -1,4 +1,5 @@
-﻿using ListOfTasks.Filter;
+﻿using Application.Tasks;
+using ListOfTasks.Filter;
 using ListOfTasks.Helpers;
 using ListOfTasks.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public class TaskController : BaseApiController
 
         var totalRecords = await context.Tasks.CountAsync();
         var pagedReponse =
-            PaginationHelper.CreatePagedReponse<Task>(pagedData, validFilter, totalRecords, uriService, route);
+            PaginationHelper.CreatePagedReponse<Domain.Tasks>(pagedData, validFilter, totalRecords, uriService, route);
         return Ok(pagedReponse);
     }
 
@@ -56,7 +57,7 @@ public class TaskController : BaseApiController
             .ToListAsync();
         var totalRecords = await context.ListTasks.CountAsync();
         var pagedReponse =
-            PaginationHelper.CreatePagedReponse<Task>(pagedData, validFilter, totalRecords, uriService, route);
+            PaginationHelper.CreatePagedReponse<Domain.Tasks>(pagedData, validFilter, totalRecords, uriService, route);
         return Ok(pagedReponse);
     }
 
@@ -80,13 +81,13 @@ public class TaskController : BaseApiController
     // }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> CreateTast([FromBody] Task Task, string id)
+    public async Task<IActionResult> CreateTast([FromBody] Domain.Tasks Task, string id)
     {
         return Ok(await Mediator.Send(new CreateTask.Command { Task = Task, Id = id }));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditTast(Guid id, [FromBody] Task Task)
+    public async Task<IActionResult> EditTast(Guid id, [FromBody] Domain.Tasks Task)
     {
         Task.Id = id;
         return Ok(await Mediator.Send(new EditTask.Command { Task = Task }));

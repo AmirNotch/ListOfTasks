@@ -1,4 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using Application.Tasks;
+using FluentValidation.AspNetCore;
 using ListOfTasks.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
